@@ -187,7 +187,7 @@
     var onclose = function(event) {
       pomelo.emit('close',event);
       pomelo.emit('disconnect', event);
-      console.error('socket close: ', event);
+      // console.error('socket close: ', event);
       if(!!params.reconnect && reconnectAttempts < maxReconnectAttempts) {
         reconnect = true;
         reconnectAttempts++;
