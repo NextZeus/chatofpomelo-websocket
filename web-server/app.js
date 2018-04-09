@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 
 app.configure(function(){
 	app.use(express.methodOverride());
-	app.use(express.bodyParser());
+	app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(bodyParser.json());
 	app.use(app.router);
 	app.set('view engine', 'jade');
 	app.set('views', __dirname + '/public');
