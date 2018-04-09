@@ -6,6 +6,21 @@ var routeUtil = require('./app/util/routeUtil');
 var app = pomelo.createApp();
 app.set('name', 'chatofpomelo-websocket');
 
+var dict = require(__dirname + '/config/dictionary.json');
+var clientProtos = require(__dirname + '/config/clientProtos.json');
+
+var handshake = function (msg, cb) {
+    console.log('handshake msg: ', msg);
+    cb(null, {
+    	code:200, 
+    	sys:{
+    		heartbeat: 30,
+    		dict: dict,
+    		protos: clientProtos
+    	}
+    });
+}
+
 // app configuration
 app.configure('production|development', 'connector', function(){
 	app.set('connectorConfig',
@@ -13,7 +28,8 @@ app.configure('production|development', 'connector', function(){
 			connector : pomelo.connectors.hybridconnector,
 			heartbeat : 30,
 			useDict : true,
-			useProtobuf : true
+			useProtobuf : true,
+			handshake: handshake
 		});
 });
 
@@ -22,7 +38,8 @@ app.configure('production|development', 'gate', function(){
 		{
 			connector : pomelo.connectors.hybridconnector,
 			useDict : true,
-			useProtobuf : true
+			useProtobuf : true,
+			handshake: handshake
 		});
 });
 
